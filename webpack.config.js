@@ -1,7 +1,7 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 let mode = "development";
-let target = "web"; // for HMR in dev
+let target = "web"; // for HMR in dev ... because of browserslist it won't work in dev
 
 if (process.env.NODE_ENV == "production") {
     mode = "production";
@@ -26,7 +26,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader"
@@ -36,6 +36,10 @@ module.exports = {
     },
 
     plugins: [new MiniCssExtractPlugin()],
+
+    resolve: {
+        extensions: [".js", ".jsx"] // will automatically infer the type of import file
+    },
 
     devServer: {
         contentBase: "./dist", //to specify which folder to access. or else all folders will be displayed
