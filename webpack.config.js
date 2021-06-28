@@ -13,13 +13,25 @@ module.exports = {
     target: target,
 
     devtool: "source-map",
+
+    output: {
+        assetModuleFilename: "images/[name].[hash][ext][query]",
+    },
     
     module: {
         rules: [
             {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                type: "asset", //https://webpack.js.org/guides/asset-modules/
+            },
+            {
                 test: /\.(s[ac]|c)ss$/i,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {publicPath: ""}
+                    }
+                    ,
                     "css-loader",
                     "postcss-loader", // keep it before sass so that sass file doesn't contain any vendor prefixes
                     "sass-loader"
