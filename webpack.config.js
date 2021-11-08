@@ -1,4 +1,7 @@
+const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HTMLWebPackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 let mode = "development";
 let target = "web"; // for HMR in dev ... because of browserslist it won't work in dev
@@ -15,6 +18,7 @@ module.exports = {
     devtool: "source-map",
 
     output: {
+        path: path.resolve(__dirname, "dist"),
         assetModuleFilename: "images/[name].[hash][ext][query]",
     },
     
@@ -47,7 +51,12 @@ module.exports = {
         ]
     },
 
-    plugins: [new MiniCssExtractPlugin()],
+    plugins: [
+        new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin(),
+        new HTMLWebPackPlugin({
+        template: "./src/index.html"
+    })],
 
     resolve: {
         extensions: [".js", ".jsx"] // will automatically infer the type of import file
